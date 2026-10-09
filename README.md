@@ -143,6 +143,10 @@ Games, frame generation and FSR are unaffected; they use the 3D engine.
 | [tools/windows/gpu-watch](tools/windows/gpu-watch) | background logger: temperatures, clocks, per-engine load and the process on it, VRAM, memory commit and network probes every 2 s, written through to disk so the last lines survive a hard reset |
 | [tools/analysis/Get-HangSnapshots.ps1](tools/analysis/Get-HangSnapshots.ps1) | reads Windows' GPU hang dumps: stop code, AMD watchdog, engine and program, driver build |
 
+## Discussion
+
+- [r/radeon thread](https://www.reddit.com/r/radeon/comments/1x17ic1/rx_9070_xt_black_screens_on_adrenalin_265_video/)
+
 ## Similar reports
 
 - [LizardByte/Sunshine#5385](https://github.com/LizardByte/Sunshine/issues/5385): RX 9070 XT

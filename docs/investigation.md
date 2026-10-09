@@ -133,3 +133,4 @@ Together they hold the video engine at about 90–97%. The test stops at the fir
 | 17 May | 26.5.2 installed; first video-engine black screen that night (`0x141` at 23:11, `0x1A8` at 23:12 and 23:15, `0x193` "driver could not start the card" at 23:24) |
 | May – Oct | 42 video-engine black screens on 26.5.2, 26.7.1, 26.8.1 |
 | 9 Oct | stress test reproduces it on 26.8.1 (12, 16 min); see README for the driver A/B |
+| 9 Oct | 26.9.2 (newest release, `32.0.32015.2008`) installed over 26.2.2 and stress-tested: hang at 10.7 min, bucket `LKD_0x141_Tdr:6_IMAGE_amdkmdag.sys-PF:1-HWS:1-GRE=8094`, card disabled after the reset |

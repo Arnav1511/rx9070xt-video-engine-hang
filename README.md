@@ -1,6 +1,6 @@
 # RX 9070 XT: video engine (VCN) hang → black screen → card disabled after reboot
 
-**Summary (October 2026, reported to AMD via the Bug Report Tool):** on Adrenalin **26.5.2 through 26.8.1** (every newer driver this card has run; later releases are untested), the RX 9070 XT's **video codec
+**Summary (October 2026, reported to AMD via the Bug Report Tool):** on Adrenalin **26.5.2 through 26.9.2** (every driver newer than 26.3.1 this card has run, including the newest release as of 9 October 2026), the RX 9070 XT's **video codec
 engine** hangs under encode/decode load, AMD's recovery fails, the screen goes black and Crash
 Defender disables the card. A stress test reproduces it in **6–16 minutes**. On
 **Adrenalin 26.2.2** the same test ran **90 minutes across two runs (30 + 60) without a hang**, and the
@@ -9,9 +9,10 @@ component: the AMF runtime shipped with the newer packages (one run so far, A/B 
 Hardware is not fully excluded; see [Open questions](#open-questions). **Workaround:** use
 26.2.2, or keep apps off the hardware encoder ([below](#workaround-until-the-cause-is-fixed)).
 
-**Status (9 October 2026):** the test PC is back on 26.2.2 with hardware acceleration
-re-enabled in Discord, Chrome and OBS. Whether everyday use stays free of hangs will be
-recorded here.
+**Status (9 October 2026):** Adrenalin 26.9.2 (released 29 September, the newest driver) was
+tested today and hung after 10.7 minutes, so no release so far fixes it. The test PC goes
+back to 26.2.2 for everyday use, with hardware acceleration enabled in Discord, Chrome and
+OBS; whether that stays free of hangs will be recorded here.
 
 ## Symptom
 
@@ -33,7 +34,7 @@ recorded here.
 | CPU / board | Ryzen 7 9800X3D, ASUS TUF GAMING B650-PLUS (BIOS 3881) |
 | RAM / PSU | 2×16 GB DDR5-6000, Corsair 850 W |
 | OS | Windows 11 Pro 26200 (Mar–Sep 2026), 26300 (Oct 2026) |
-| Drivers | Adrenalin 26.2.2, 26.3.1, 26.5.2, 26.7.1, 26.8.1 over the period |
+| Drivers | Adrenalin 26.2.2, 26.3.1, 26.5.2, 26.7.1, 26.8.1 over the period; 26.9.2 for one stress run |
 
 ## Findings
 
@@ -72,8 +73,15 @@ only the video engine (AMF encode + D3D11 decode) triggers the identical fatal s
 | 3 | 26.2.2 (clean install) | 26.8.1 (left in System32 by the downgrade) | **hang at 6.4 min** |
 | 4 | 26.2.2 | 26.2.2 | **passed 30 min** |
 | 5 | 26.2.2 | 26.2.2 | **passed 60 min** (69 sessions, video engine 96% average, max 58 °C) |
-| 6 | 26.2.2 | 26.8.1 | planned (A/B) |
-| 7 | Linux, amdgpu + Mesa VA-API | n/a | planned |
+| 6 | 26.9.2 (upgrade over 26.2.2; every driver file in System32 and SysWOW64 checked against the package) | 26.9.2 | **hang at 10.7 min** |
+| 7 | 26.2.2 | 26.8.1 | planned (A/B) |
+| 8 | Linux, amdgpu + Mesa VA-API | n/a | planned |
+
+Run 6 used the newest driver available (released 29 September 2026, a new driver branch,
+`32.0.32015.2008`). The video engine was at 92–94% under ffmpeg and the card at 52 °C when
+it stopped. Windows filed `0x141 … Tdr:6 … HWS:1-GRE=8094` (earlier builds: `GRE=3202c`) with
+Crash Defender's `0xA1000001` / `0xA2000002` in the same second and `0x193` four seconds
+later; after the reset the card was disabled (code 22), as before.
 
 Logs: [results/stress-runs](results/stress-runs). Second-by-second logger data around each
 hang: [results/logger-excerpts](results/logger-excerpts).
@@ -92,15 +100,13 @@ so the onset in May was not a Windows feature update.
 
 - Runs 3 and 4 differ only in which `amfrt64.dll` was loaded; the kernel driver, firmware
   and every other driver library were 26.2.2 in both. That points at AMD's AMF runtime from
-  the newer packages. Run 5 confirmed that clean 26.2.2 holds for a full hour; run 6 (26.2.2
+  the newer packages. Run 5 confirmed that clean 26.2.2 holds for a full hour; run 7 (26.2.2
   with only the newer `amfrt64.dll` swapped in) is the remaining test of the AMF runtime.
-- Run 7 (Linux) uses a separate driver, encoder library and firmware build. A hang there
+- Run 8 (Linux) uses a separate driver, encoder library and firmware build. A hang there
   would point at the card itself.
 - AMD has acknowledged VCN engine hangs on RDNA3 with HAGS as a factor (see
   [Similar reports](#similar-reports)). A run of 26.8.1 with HAGS off would show whether the
   same workaround applies to RDNA4.
-- Releases newer than 26.8.1 have not been tested here. A pass on a newer driver would mean
-  it is already fixed.
 - Is any healthy RX 9070 XT affected? Results from other owners running the test below
   would settle the hardware question. Please [open a "Stress test result" issue](../../issues/new/choose) with your log.
 
@@ -178,7 +184,7 @@ Games, frame generation and FSR are unaffected; they use the 3D engine.
   as a temporary workaround."* That is about RDNA3 (NV3X). Every hang here carries `HWS:1`
   (hardware-accelerated GPU scheduling on), which fits, but 26.2.2 passes the stress test with
   HAGS on, so on RDNA4 HAGS alone is not the cause. Whether turning HAGS off avoids the hang on
-  26.5.2–26.8.1 with RDNA4 is untested here.
+  26.5.2–26.9.2 with RDNA4 is untested here.
 
 - [LizardByte/Sunshine#5385](https://github.com/LizardByte/Sunshine/issues/5385): RX 9070 XT
   hangs during AMF encoder session start on Adrenalin 26.6.4, Crash Defender puts the GPU in

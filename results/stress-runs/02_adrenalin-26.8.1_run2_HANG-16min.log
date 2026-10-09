@@ -1,0 +1,25 @@
+2026-10-09 04:15:14 START hours=1 ffmpeg=<ffmpeg>
+2026-10-09 04:15:14 card=AMD Radeon RX 9070 XT driver=32.0.31041.1004
+2026-10-09 04:15:15 steady started pid=13592
+2026-10-09 04:15:15 decode started pid=13800
+2026-10-09 04:15:15 churn #1 av1_amf usage=lowlatency 11M 60s src=src_1440p60_hevc.mp4 pid=23524
+2026-10-09 04:16:15 churn #2 h264_amf usage=transcoding 8M 84s src=src_1080p60_h264.mp4 pid=28496
+2026-10-09 04:17:39 churn #3 av1_amf usage=ultralowlatency 18M 67s src=src_1080p60_h264.mp4 pid=21744
+2026-10-09 04:18:46 churn #4 av1_amf usage=lowlatency 17M 75s src=src_1080p60_h264.mp4 pid=28128
+2026-10-09 04:20:01 churn #5 av1_amf usage=lowlatency 8M 16s src=src_1440p60_hevc.mp4 pid=13036
+2026-10-09 04:20:17 churn #6 av1_amf usage=lowlatency 6M 67s src=src_1080p60_h264.mp4 pid=13872
+2026-10-09 04:21:24 churn #7 h264_amf usage=transcoding 9M 35s src=src_1080p60_h264.mp4 pid=5980
+2026-10-09 04:21:59 churn #8 hevc_amf usage=lowlatency 12M 44s src=src_1080p60_h264.mp4 pid=18420
+2026-10-09 04:22:44 churn #9 h264_amf usage=transcoding 20M 89s src=src_1080p60_h264.mp4 pid=18932
+2026-10-09 04:24:13 churn #10 hevc_amf usage=ultralowlatency 11M 56s src=src_1080p60_h264.mp4 pid=29224
+2026-10-09 04:25:10 churn #11 av1_amf usage=lowlatency 18M 16s src=src_1080p60_h264.mp4 pid=19396
+2026-10-09 04:25:26 churn #12 hevc_amf usage=transcoding 10M 73s src=src_1080p60_h264.mp4 pid=4156
+2026-10-09 04:26:40 churn #13 h264_amf usage=lowlatency 14M 67s src=src_1080p60_h264.mp4 pid=13340
+2026-10-09 04:27:46 churn #14 hevc_amf usage=transcoding 13M 30s src=src_1440p60_hevc.mp4 pid=19500
+2026-10-09 04:28:17 churn #15 hevc_amf usage=ultralowlatency 10M 53s src=src_1440p60_hevc.mp4 pid=22900
+2026-10-09 04:29:11 churn #16 hevc_amf usage=ultralowlatency 8M 62s src=src_1440p60_hevc.mp4 pid=11216
+2026-10-09 04:30:14 churn #17 h264_amf usage=ultralowlatency 14M 87s src=src_1440p60_hevc.mp4 pid=13256
+2026-10-09 04:31:38 GPU HANG REPORTED at 04:31:29: Fault bucket , type 0 Event Name: LiveKernelEvent Response: Not available Cab Id: 0 Problem signature: P1: 141 P2: aaaaaaaaaaaaaaaa P3: aaaaaaaaaaaaaaaa P4: aaaaaaaaaaaaaaaa P5: aaaaaaaaaaaaaaaa P6: 10_0_26300 P7: 0_0 P8: 256_1 P9: P10: Attached files: \\?\C:\WINDOWS\LiveKernelReports\WATCHDOG\WATCHDOG-20261009-0431.dmp \\?\C:\WINDOWS\SystemTemp\WER-1057609-0.sysdata.xml \\?\C:\ProgramData\Microso
+2026-10-09 04:31:38 GPU HANG REPORTED at 04:31:28: Fault bucket , type 0 Event Name: LiveKernelEvent Response: Not available Cab Id: 0 Problem signature: P1: a1000001 P2: aaaaaaaaaaaaaaaa P3: aaaaaaaaaaaaaaaa P4: aaaaaaaaaaaaaaaa P5: aaaaaaaaaaaaaaaa P6: 10_0_26300 P7: 0_0 P8: 256_1 P9: P10: Attached files: \\?\C:\WINDOWS\LiveKernelReports\AMD_WATCHDOG\AMD_WATCHDOG-20261009-0431.dmp \\?\C:\WINDOWS\SystemTemp\WER-1057406-0.sysdata.xml \\?\C:\Progra
+2026-10-09 04:31:38 GPU HANG REPORTED at 04:31:28: Fault bucket , type 0 Event Name: LiveKernelEvent Response: Not available Cab Id: 0 Problem signature: P1: a2000002 P2: aaaaaaaaaaaaaaaa P3: aaaaaaaaaaaaaaaa P4: aaaaaaaaaaaaaaaa P5: aaaaaaaaaaaaaaaa P6: 10_0_26300 P7: 0_0 P8: 256_1 P9: P10: Attached files: \\?\C:\WINDOWS\LiveKernelReports\AMD_REPORT_UM\AMD_REPORT_UM-20261009-0431.dmp \\?\C:\WINDOWS\SystemTemp\WER-1057593-0.sysdata.xml \\?\C:\Prog
+2026-10-09 04:31:38 END after 16.4 min: churn sessions=17 failures=0 hang=True

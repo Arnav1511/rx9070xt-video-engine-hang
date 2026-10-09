@@ -1,0 +1,222 @@
+
+************* Path validation summary **************
+Response                         Time (ms)     Location
+Deferred                                       srv*<work>\symbols*https://msdl.microsoft.com/download/symbols
+Opened log file '<work>\analysis\an_WATCHDOG-20261005-0243.txt'
+
+************* Preparing the environment for Debugger Extensions Gallery repositories **************
+   ExtensionRepository : Implicit
+   UseExperimentalFeatureForNugetShare : true
+   AllowNugetExeUpdate : true
+   NonInteractiveNuget : true
+   AllowNugetMSCredentialProviderInstall : true
+   AllowParallelInitializationOfLocalRepositories : true
+
+   -- Configuring repositories
+      ----> Repository : LocalInstalled, Enabled: true
+      ----> Repository : UserExtensions, Enabled: true
+
+>>>>>>>>>>>>> Preparing the environment for Debugger Extensions Gallery repositories completed, duration 0.000 seconds
+
+************* Waiting for Debugger Extensions Gallery to Initialize **************
+
+>>>>>>>>>>>>> Waiting for Debugger Extensions Gallery to Initialize completed, duration 0.015 seconds
+   ----> Repository : UserExtensions, Enabled: true, Packages count: 0
+   ----> Repository : LocalInstalled, Enabled: true, Packages count: 46
+
+Microsoft (R) Windows Debugger Version 10.0.29661.1004 AMD64
+Copyright (c) Microsoft Corporation. All rights reserved.
+
+
+Loading Dump File [<work>\dumps\WATCHDOG\WATCHDOG-20261005-0243.dmp]
+Mini Kernel Dump File: Only registers and stack trace are available
+
+
+************* Path validation summary **************
+Response                         Time (ms)     Location
+Deferred                                       srv*<work>\symbols*https://msdl.microsoft.com/download/symbols
+Symbol search path is: srv*<work>\symbols*https://msdl.microsoft.com/download/symbols
+Executable search path is: 
+Windows 10 Kernel Version 26300 MP (16 procs) Free x64
+Product: WinNt, suite: TerminalServer SingleUserTS
+Kernel base = 0xfffff803`76000000 PsLoadedModuleList = 0xfffff803`76ef5410
+Debug session time: Mon Oct  5 02:43:22.193 2026 (UTC + 5:30)
+System Uptime: 0 days 10:28:48.839
+Loading Kernel Symbols
+...............................................................
+................................................................
+................................................................
+..............................................
+Loading User Symbols
+
+Mini Kernel Dump does not contain unloaded driver list
+ReadVirtual() failed in GetXStateConfiguration() first read attempt (error == 0.)
+For analysis of this file, run !analyze -v
+2: kd> !analyze -v; q
+Loading Kernel Symbols
+...............................................................
+................................................................
+................................................................
+..............................................
+Loading User Symbols
+
+Mini Kernel Dump does not contain unloaded driver list
+*******************************************************************************
+*                                                                             *
+*                        Bugcheck Analysis                                    *
+*                                                                             *
+*******************************************************************************
+
+VIDEO_ENGINE_TIMEOUT_DETECTED (141)
+One of the display engines failed to respond in timely fashion.
+(This code can never be used for a real BugCheck; it is used to identify live dumps.)
+Arguments:
+Arg1: ffff8a051eecc290, Optional pointer to internal TDR recovery context (TDR_RECOVERY_CONTEXT).
+Arg2: fffff8034b640fb0, The pointer into responsible device driver module (e.g. owner tag).
+Arg3: 0000000000000000, The secondary driver specific bucketing key.
+Arg4: ffff8a051b7ef080, Optional internal context dependent data.
+
+Debugging Details:
+------------------
+
+Mini Kernel Dump does not contain unloaded driver list
+Mini Kernel Dump does not contain unloaded driver list
+Unable to load image amdkmdag.sys, Win32 error 0n2
+*** WARNING: Unable to verify timestamp for amdkmdag.sys
+
+KEY_VALUES_STRING: 1
+
+    Key  : Analysis.CPU.mSec
+    Value: 2265
+
+    Key  : Analysis.Elapsed.mSec
+    Value: 1144
+
+    Key  : Analysis.IO.Other.Mb
+    Value: 0
+
+    Key  : Analysis.IO.Read.Mb
+    Value: 1
+
+    Key  : Analysis.IO.Write.Mb
+    Value: 0
+
+    Key  : Analysis.Init.CPU.mSec
+    Value: 937
+
+    Key  : Analysis.Init.Elapsed.mSec
+    Value: 731
+
+    Key  : Analysis.Memory.CommitPeak.Mb
+    Value: 99
+
+    Key  : Analysis.Version.DbgEng
+    Value: 10.0.29661.1004
+
+    Key  : Analysis.Version.Description
+    Value: 10.2608.26.1 amd64fre
+
+    Key  : Analysis.Version.Ext
+    Value: 1.2608.26.1
+
+    Key  : Bugcheck.Code.LegacyAPI
+    Value: 0x141
+
+    Key  : Bugcheck.Code.TargetModel
+    Value: 0x141
+
+    Key  : Dump.Attributes.AsUlong
+    Value: 0x18
+
+    Key  : Dump.Attributes.KernelGeneratedTriageDump
+    Value: 1
+
+    Key  : Failure.Bucket
+    Value: LKD_0x141_IMAGE_amdkmdag.sys
+
+    Key  : Failure.Exception.IP.Address
+    Value: 0xfffff8034b640fb0
+
+    Key  : Failure.Exception.IP.Module
+    Value: amdkmdag
+
+    Key  : Failure.Exception.IP.Offset
+    Value: 0x1d0fb0
+
+    Key  : Failure.Hash
+    Value: {48b738dd-5a92-7ff8-63d0-f075fc680fe0}
+
+    Key  : Faulting.IP.Type
+    Value: Paged
+
+
+BUGCHECK_CODE:  141
+
+BUGCHECK_P1: ffff8a051eecc290
+
+BUGCHECK_P2: fffff8034b640fb0
+
+BUGCHECK_P3: 0
+
+BUGCHECK_P4: ffff8a051b7ef080
+
+FILE_IN_CAB:  WATCHDOG-20261005-0243.dmp
+
+DUMP_FILE_ATTRIBUTES: 0x18
+  Kernel Generated Triage Dump
+  Live Generated Dump
+
+FAULTING_THREAD:  ffff8a04f5cdf280
+
+TAG_NOT_DEFINED_202b:  *** Unknown TAG in analysis list 202b
+
+
+VIDEO_TDR_CONTEXT: dt dxgkrnl!_TDR_RECOVERY_CONTEXT ffff8a051eecc290
+dt dxgkrnl!_TDR_RECOVERY_CONTEXT ffff8a051eecc290
+Symbol dxgkrnl!_TDR_RECOVERY_CONTEXT not found.
+
+PROCESS_OBJECT: ffff8a051b7ef080
+
+PROCESS_NAME:  System
+
+IP_IN_PAGED_CODE: 
+amdkmdag+1d0fb0
+fffff803`4b640fb0 ??              ???
+
+STACK_TEXT:  
+ffffe204`3b3de7d0 fffff803`76711e09     : ffff8a05`1eecc290 00000000`00000000 00000000`00000000 00000000`00000000 : nt!DbgkpWerCaptureLiveTriageDump+0x8e
+ffffe204`3b3ded00 fffff803`76ac679a     : 00000000`00000000 00000000`c0000099 fffff803`76af26b0 00000000`c0000099 : nt!DbgkpWerProcessPolicyResult+0x21
+ffffe204`3b3ded30 fffff803`76ac6599     : 00000000`00000003 ffffe204`3b3def10 fffff803`4b640fb0 ffff8a05`1e99bd90 : nt!DbgkWerCaptureLiveKernelDump2+0x1ea
+ffffe204`3b3ded90 fffff803`0855a66c     : 00000000`00000057 ffff9c84`345f47f0 ffff9c84`4605ac55 ffff8a04`f5d6c000 : nt!DbgkWerCaptureLiveKernelDump+0x69
+ffffe204`3b3dee10 fffff803`4b2f4071     : ffff8a04`f5e1a000 ffff8a04`f5e1a000 00000000`00000001 00000000`00000001 : dxgkrnl!TdrCollectDbgInfoStage1+0xecc
+ffffe204`3b3deff0 fffff803`4b3482ff     : ffff8a04`f5e1a001 ffff8a04`f5e1a700 00000000`00000000 00000000`00000001 : dxgmms2!VidSchiResetHwEngine+0x239
+ffffe204`3b3df210 fffff803`4b369a56     : ffffe204`00000000 ffff8a04`f5d6e000 ffffe204`3b3df359 00000000`00000000 : dxgmms2!VidSchiResetEngines+0xcb
+ffffe204`3b3df260 fffff803`4b368841     : ffffe204`3b3df359 00000000`00000000 ffff8a04`f5d6e000 00000000`0024d791 : dxgmms2!VidSchiCheckHwProgress+0x316
+ffffe204`3b3df2f0 fffff803`4b2c409e     : ffff8a04`f5d6e000 ffff8a04`f5d6e000 fffff780`00000320 00000000`00000000 : dxgmms2!VidSchiWaitForSchedulerEvents+0x1b1
+ffffe204`3b3df3c0 fffff803`4b36a412     : ffff8a04`f5d6e000 ffffe204`3b3df530 ffff8a05`201d3010 ffff8a05`201d0010 : dxgmms2!VidSchiScheduleCommandToRun+0x32e
+ffffe204`3b3df4e0 fffff803`4b3484ac     : ffff8a04`f5d6e500 ffff8a04`f5d6e000 fffff803`4b3483d0 00000000`00000000 : dxgmms2!VidSchiRun_PriorityTable+0x42
+ffffe204`3b3df530 fffff803`764944ca     : ffff8a04`f5cdf280 fffff803`00000001 ffff8a04`00000034 ffffe680`63d9a180 : dxgmms2!VidSchiWorkerThread+0xdc
+ffffe204`3b3df570 fffff803`766af7f4     : ffffe680`63d9a180 ffff8a04`f5cdf280 fffff803`76494470 00000020`e1000000 : nt!PspSystemThreadStartup+0x5a
+ffffe204`3b3df5c0 00000000`00000000     : ffffe204`3b3e0000 ffffe204`3b3d9000 00000000`00000000 00000000`00000000 : nt!KiStartSystemThread+0x34
+
+
+SYMBOL_NAME:  amdkmdag+1d0fb0
+
+MODULE_NAME: amdkmdag
+
+IMAGE_NAME:  amdkmdag.sys
+
+STACK_COMMAND: .process /r /p 0xffff8a04bb775040; .thread /r /p 0xffff8a04f5cdf280 ; kb
+
+FAILURE_BUCKET_ID:  LKD_0x141_IMAGE_amdkmdag.sys
+
+OSPLATFORM_TYPE:  x64
+
+OSNAME:  Windows 10
+
+FAILURE_ID_HASH:  {48b738dd-5a92-7ff8-63d0-f075fc680fe0}
+
+Followup:     MachineOwner
+---------
+
+quit:

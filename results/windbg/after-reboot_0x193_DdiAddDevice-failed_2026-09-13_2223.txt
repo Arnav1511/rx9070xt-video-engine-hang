@@ -1,0 +1,214 @@
+
+************* Path validation summary **************
+Response                         Time (ms)     Location
+Deferred                                       srv*<work>\symbols*https://msdl.microsoft.com/download/symbols
+Opened log file '<work>\analysis\an_WATCHDOG-20260913-2223.txt'
+
+************* Preparing the environment for Debugger Extensions Gallery repositories **************
+   ExtensionRepository : Implicit
+   UseExperimentalFeatureForNugetShare : true
+   AllowNugetExeUpdate : true
+   NonInteractiveNuget : true
+   AllowNugetMSCredentialProviderInstall : true
+   AllowParallelInitializationOfLocalRepositories : true
+
+   -- Configuring repositories
+      ----> Repository : LocalInstalled, Enabled: true
+      ----> Repository : UserExtensions, Enabled: true
+
+>>>>>>>>>>>>> Preparing the environment for Debugger Extensions Gallery repositories completed, duration 0.000 seconds
+
+************* Waiting for Debugger Extensions Gallery to Initialize **************
+
+>>>>>>>>>>>>> Waiting for Debugger Extensions Gallery to Initialize completed, duration 0.015 seconds
+   ----> Repository : UserExtensions, Enabled: true, Packages count: 0
+   ----> Repository : LocalInstalled, Enabled: true, Packages count: 46
+
+Microsoft (R) Windows Debugger Version 10.0.29661.1004 AMD64
+Copyright (c) Microsoft Corporation. All rights reserved.
+
+
+Loading Dump File [<work>\dumps\WATCHDOG\WATCHDOG-20260913-2223.dmp]
+Mini Kernel Dump File: Only registers and stack trace are available
+
+
+************* Path validation summary **************
+Response                         Time (ms)     Location
+Deferred                                       srv*<work>\symbols*https://msdl.microsoft.com/download/symbols
+Symbol search path is: srv*<work>\symbols*https://msdl.microsoft.com/download/symbols
+Executable search path is: 
+Windows 10 Kernel Version 26200 MP (16 procs) Free x64
+Product: WinNt, suite: TerminalServer SingleUserTS
+Kernel base = 0xfffff805`bd000000 PsLoadedModuleList = 0xfffff805`bdef5410
+Debug session time: Sun Sep 13 22:23:58.964 2026 (UTC + 5:30)
+System Uptime: 0 days 0:00:19.609
+Loading Kernel Symbols
+...............................................................
+................................................................
+................................................................
+..................................
+Loading User Symbols
+
+Mini Kernel Dump does not contain unloaded driver list
+ReadVirtual() failed in GetXStateConfiguration() first read attempt (error == 0.)
+For analysis of this file, run !analyze -v
+14: kd> !analyze -v; q
+Loading Kernel Symbols
+...............................................................
+................................................................
+................................................................
+..................................
+Loading User Symbols
+
+Mini Kernel Dump does not contain unloaded driver list
+*******************************************************************************
+*                                                                             *
+*                        Bugcheck Analysis                                    *
+*                                                                             *
+*******************************************************************************
+
+VIDEO_DXGKRNL_LIVEDUMP (193)
+Livedumps triggered by dxgkrnl when a problem is detected.
+(This code can never be used for a real BugCheck; it is used to identify live dumps.)
+Arguments:
+Arg1: 0000000000000801, Reason Code.
+	100 Internal
+Arg2: ffffffffc0000001, Reserved.
+Arg3: 0000000000000000, Reserved.
+Arg4: 0000000000000000, Reserved.
+
+Debugging Details:
+------------------
+
+Mini Kernel Dump does not contain unloaded driver list
+Mini Kernel Dump does not contain unloaded driver list
+
+KEY_VALUES_STRING: 1
+
+    Key  : Analysis.CPU.mSec
+    Value: 2875
+
+    Key  : Analysis.Elapsed.mSec
+    Value: 1429
+
+    Key  : Analysis.IO.Other.Mb
+    Value: 8
+
+    Key  : Analysis.IO.Read.Mb
+    Value: 1
+
+    Key  : Analysis.IO.Write.Mb
+    Value: 23
+
+    Key  : Analysis.Init.CPU.mSec
+    Value: 13046
+
+    Key  : Analysis.Init.Elapsed.mSec
+    Value: 12818
+
+    Key  : Analysis.Memory.CommitPeak.Mb
+    Value: 94
+
+    Key  : Analysis.Version.DbgEng
+    Value: 10.0.29661.1004
+
+    Key  : Analysis.Version.Description
+    Value: 10.2608.26.1 amd64fre
+
+    Key  : Analysis.Version.Ext
+    Value: 1.2608.26.1
+
+    Key  : Bugcheck.Code.LegacyAPI
+    Value: 0x193
+
+    Key  : Bugcheck.Code.TargetModel
+    Value: 0x193
+
+    Key  : Dump.Attributes.AsUlong
+    Value: 0x18
+
+    Key  : Dump.Attributes.KernelGeneratedTriageDump
+    Value: 1
+
+    Key  : Failure.Bucket
+    Value: LKD_0x193_dxgkrnl!DxgCreateLiveDumpWithWdLogs2
+
+    Key  : Failure.Hash
+    Value: {f51452f1-290a-6a1b-5cf3-c8f949ad9c33}
+
+
+BUGCHECK_CODE:  193
+
+BUGCHECK_P1: 801
+
+BUGCHECK_P2: ffffffffc0000001
+
+BUGCHECK_P3: 0
+
+BUGCHECK_P4: 0
+
+FILE_IN_CAB:  WATCHDOG-20260913-2223.dmp
+
+DUMP_FILE_ATTRIBUTES: 0x18
+  Kernel Generated Triage Dump
+  Live Generated Dump
+
+FAULTING_THREAD:  ffffa809afbf8040
+
+PROCESS_NAME:  System
+
+LOCK_ADDRESS:  fffff805bdf8bb20 -- (!locks fffff805bdf8bb20)
+!locks fffff805bdf8bb20
+Unable to get value of PsActiveProcessHead.Flink
+Cannot get _ERESOURCE Flag field
+Unexpected resource format: 0
+1 total locks
+
+PNP_TRIAGE_DATA: 
+	Lock address  : 0xfffff805bdf8bb20
+	Thread Count  : 0
+	Thread address: 0x0000000000000000
+	Thread wait   : 0x0
+
+STACK_TEXT:  
+fffff90d`1c986770 fffff805`4f3a71e8     : ffffa809`b489ec00 00000000`00000000 00000000`00000000 00000000`00000801 : watchdog!WdpDbgCaptureTriageDump+0xe6
+fffff90d`1c9867e0 fffff805`4f3a3c08     : 00000000`00080000 00000000`00000193 00000000`00000801 00000000`00000000 : watchdog!WdDbgReportRecreate+0x108
+fffff90d`1c986840 fffff805`4f7c8552     : 00000000`00080000 fffff90d`1c986a70 ffffffff`c0000001 ffff8685`47769710 : watchdog!WdDbgReportCreate+0x58
+fffff90d`1c9868b0 fffff805`4f7c84fb     : 00000000`00080000 fffff90d`1c986a70 ffff8685`47769710 fffff805`4f582926 : dxgkrnl!DxgCreateLiveDumpWithWdLogs2+0x4a
+fffff90d`1c986920 fffff805`4f726f87     : 00000000`00080000 ffffffff`c0000001 ffffffff`c0000001 00000000`00000000 : dxgkrnl!DxgCreateLiveDumpWithWdLogs+0x2b
+fffff90d`1c986970 fffff805`bd4b6497     : fffff90d`1c986fb0 fffff805`bd8fb329 fffff805`4f724d70 00000000`00000004 : dxgkrnl!DpiAddDevice+0x2217
+fffff90d`1c986f30 fffff805`bd8fbf20     : ffffa809`ae9b2e10 ffffa809`b425e38d 00000000`00000003 00000000`00000012 : nt!PpvUtilCallAddDevice+0x37
+fffff90d`1c986f70 fffff805`bd991146     : 00000000`00000003 00000000`00000000 fffff90d`1c987130 00000000`40000000 : nt!PnpCallAddDevice+0x9c
+fffff90d`1c987030 fffff805`bd8f9280     : ffffa809`998e6ba0 fffff90d`1c987271 ffffa809`998e6ba0 ffffa809`b4c55d90 : nt!PipCallDriverAddDevice+0x42a
+fffff90d`1c9871f0 fffff805`bdad4dca     : ffffa809`998e6ba0 ffffa809`b4c55d90 fffff90d`1c987310 fffff805`00000000 : nt!PipProcessDevNodeTree+0x4f8
+fffff90d`1c9872c0 fffff805`bd477bf6     : 00000001`00000003 ffffa809`998e6ba0 00000000`00000000 00000000`00000000 : nt!PiRestartDevice+0xbe
+fffff90d`1c987310 fffff805`bd30fcdb     : ffffa809`afbf8040 fffff805`bdf8a3a0 fffff805`bd477940 ffffa809`afbf8040 : nt!PnpDeviceActionWorker+0x2b6
+fffff90d`1c9873d0 fffff805`bd4944ca     : ffffa809`afbf8040 ffffa809`96764040 ffffa809`afbf8040 00000000`00000080 : nt!ExpWorkerThread+0x3db
+fffff90d`1c987570 fffff805`bd6af7f4     : ffffcc00`12bc0180 ffffa809`afbf8040 fffff805`bd494470 00000000`00000246 : nt!PspSystemThreadStartup+0x5a
+fffff90d`1c9875c0 00000000`00000000     : fffff90d`1c988000 fffff90d`1c981000 00000000`00000000 00000000`00000000 : nt!KiStartSystemThread+0x34
+
+
+SYMBOL_NAME:  dxgkrnl!DxgCreateLiveDumpWithWdLogs2+4a
+
+MODULE_NAME: dxgkrnl
+
+IMAGE_NAME:  dxgkrnl.sys
+
+IMAGE_VERSION:  10.0.26100.9444
+
+STACK_COMMAND: .process /r /p 0xffffa80996764040; .thread /r /p 0xffffa809afbf8040 ; kb
+
+BUCKET_ID_FUNC_OFFSET:  4a
+
+FAILURE_BUCKET_ID:  LKD_0x193_dxgkrnl!DxgCreateLiveDumpWithWdLogs2
+
+OSPLATFORM_TYPE:  x64
+
+OSNAME:  Windows 10
+
+FAILURE_ID_HASH:  {f51452f1-290a-6a1b-5cf3-c8f949ad9c33}
+
+Followup:     MachineOwner
+---------
+
+quit:

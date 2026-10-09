@@ -1,0 +1,196 @@
+
+************* Path validation summary **************
+Response                         Time (ms)     Location
+Deferred                                       srv*<work>\symbols*https://msdl.microsoft.com/download/symbols
+Opened log file '<work>\analysis\an_AMD_WATCHDOG-20261004-1614.txt'
+
+************* Preparing the environment for Debugger Extensions Gallery repositories **************
+   ExtensionRepository : Implicit
+   UseExperimentalFeatureForNugetShare : true
+   AllowNugetExeUpdate : true
+   NonInteractiveNuget : true
+   AllowNugetMSCredentialProviderInstall : true
+   AllowParallelInitializationOfLocalRepositories : true
+
+   -- Configuring repositories
+      ----> Repository : LocalInstalled, Enabled: true
+      ----> Repository : UserExtensions, Enabled: true
+
+>>>>>>>>>>>>> Preparing the environment for Debugger Extensions Gallery repositories completed, duration 0.000 seconds
+
+************* Waiting for Debugger Extensions Gallery to Initialize **************
+
+>>>>>>>>>>>>> Waiting for Debugger Extensions Gallery to Initialize completed, duration 0.015 seconds
+   ----> Repository : UserExtensions, Enabled: true, Packages count: 0
+   ----> Repository : LocalInstalled, Enabled: true, Packages count: 46
+
+Microsoft (R) Windows Debugger Version 10.0.29661.1004 AMD64
+Copyright (c) Microsoft Corporation. All rights reserved.
+
+
+Loading Dump File [<work>\dumps\AMD_WATCHDOG\AMD_WATCHDOG-20261004-1614.dmp]
+Mini Kernel Dump File: Only registers and stack trace are available
+
+
+************* Path validation summary **************
+Response                         Time (ms)     Location
+Deferred                                       srv*<work>\symbols*https://msdl.microsoft.com/download/symbols
+Symbol search path is: srv*<work>\symbols*https://msdl.microsoft.com/download/symbols
+Executable search path is: 
+Windows 10 Kernel Version 26300 MP (16 procs) Free x64
+Product: WinNt, suite: TerminalServer SingleUserTS
+Kernel base = 0xfffff803`81400000 PsLoadedModuleList = 0xfffff803`822f5410
+Debug session time: Sun Oct  4 16:14:18.428 2026 (UTC + 5:30)
+System Uptime: 0 days 2:10:34.074
+Loading Kernel Symbols
+...............................................................
+................................................................
+................................................................
+.............................................
+Loading User Symbols
+
+Mini Kernel Dump does not contain unloaded driver list
+ReadVirtual() failed in GetXStateConfiguration() first read attempt (error == 0.)
+For analysis of this file, run !analyze -v
+*** WARNING: Unable to verify timestamp for amdfendr.sys
+4: kd> !analyze -v; q
+Loading Kernel Symbols
+...............................................................
+................................................................
+................................................................
+.............................................
+Loading User Symbols
+
+Mini Kernel Dump does not contain unloaded driver list
+Unable to load image amdfendr.sys, Win32 error 0n2
+*** WARNING: Unable to verify timestamp for amdfendr.sys
+
+************* Symbol Loading Error Summary **************
+Module name            Error
+amdfendr               The system cannot find the file specified
+
+You can troubleshoot most symbol related issues by turning on symbol loading diagnostics (!sym noisy) and repeating the command that caused symbols to be loaded.
+You should also verify that your symbol search path (.sympath) is correct.
+*******************************************************************************
+*                                                                             *
+*                        Bugcheck Analysis                                    *
+*                                                                             *
+*******************************************************************************
+
+Unknown bugcheck code (a1000001)
+Unknown bugcheck description
+Arguments:
+Arg1: 0000000000000001
+Arg2: 0000000000000000
+Arg3: 0000000000000000
+Arg4: 0000000000000000
+
+Debugging Details:
+------------------
+
+Mini Kernel Dump does not contain unloaded driver list
+Mini Kernel Dump does not contain unloaded driver list
+
+KEY_VALUES_STRING: 1
+
+    Key  : Analysis.CPU.mSec
+    Value: 1781
+
+    Key  : Analysis.Elapsed.mSec
+    Value: 885
+
+    Key  : Analysis.IO.Other.Mb
+    Value: 0
+
+    Key  : Analysis.IO.Read.Mb
+    Value: 1
+
+    Key  : Analysis.IO.Write.Mb
+    Value: 0
+
+    Key  : Analysis.Init.CPU.mSec
+    Value: 2046
+
+    Key  : Analysis.Init.Elapsed.mSec
+    Value: 1827
+
+    Key  : Analysis.Memory.CommitPeak.Mb
+    Value: 85
+
+    Key  : Analysis.Version.DbgEng
+    Value: 10.0.29661.1004
+
+    Key  : Analysis.Version.Description
+    Value: 10.2608.26.1 amd64fre
+
+    Key  : Analysis.Version.Ext
+    Value: 1.2608.26.1
+
+    Key  : Bugcheck.Code.LegacyAPI
+    Value: 0xa1000001
+
+    Key  : Bugcheck.Code.TargetModel
+    Value: 0xa1000001
+
+    Key  : Dump.Attributes.AsUlong
+    Value: 0x18
+
+    Key  : Dump.Attributes.KernelGeneratedTriageDump
+    Value: 1
+
+    Key  : Failure.Bucket
+    Value: LKD_0xA1000001_amdfendr!unknown_function
+
+    Key  : Failure.Hash
+    Value: {cb7e6729-7af8-a999-da57-477d44c3b788}
+
+
+BUGCHECK_CODE:  a1000001
+
+BUGCHECK_P1: 1
+
+BUGCHECK_P2: 0
+
+BUGCHECK_P3: 0
+
+BUGCHECK_P4: 0
+
+FILE_IN_CAB:  AMD_WATCHDOG-20261004-1614.dmp
+
+DUMP_FILE_ATTRIBUTES: 0x18
+  Kernel Generated Triage Dump
+  Live Generated Dump
+
+FAULTING_THREAD:  ffffac860db840c0
+
+PROCESS_NAME:  System
+
+STACK_TEXT:  
+fffffa02`e3dff8d0 ffffac86`2c740b80     : 00000000`00000001 00000000`a1000001 00000000`00000000 00000000`00000000 : amdfendr+0x5f588
+fffffa02`e3dff8d8 00000000`00000001     : 00000000`a1000001 00000000`00000000 00000000`00000000 00000000`00000000 : 0xffffac86`2c740b80
+fffffa02`e3dff8e0 00000000`a1000001     : 00000000`00000000 00000000`00000000 00000000`00000000 00000000`00000000 : 0x1
+fffffa02`e3dff8e8 00000000`00000000     : 00000000`00000000 00000000`00000000 00000000`00000000 ffffac86`00001730 : 0xa1000001
+
+
+SYMBOL_NAME:  amdfendr+5f588
+
+MODULE_NAME: amdfendr
+
+IMAGE_NAME:  amdfendr.sys
+
+STACK_COMMAND: .process /r /p 0xffffac85d475d040; .thread /r /p 0xffffac860db840c0 ; kb
+
+BUCKET_ID_FUNC_OFFSET:  5f588
+
+FAILURE_BUCKET_ID:  LKD_0xA1000001_amdfendr!unknown_function
+
+OSPLATFORM_TYPE:  x64
+
+OSNAME:  Windows 10
+
+FAILURE_ID_HASH:  {cb7e6729-7af8-a999-da57-477d44c3b788}
+
+Followup:     MachineOwner
+---------
+
+quit:

@@ -3,7 +3,7 @@
 **Summary (October 2026, reported to AMD via the Bug Report Tool):** on Adrenalin **26.5 and later**, the RX 9070 XT's **video codec
 engine** hangs under encode/decode load, AMD's recovery fails, the screen goes black and Crash
 Defender disables the card. A stress test reproduces it in **6–16 minutes**. On
-**Adrenalin 26.2.2** the same test ran **59+ minutes across two runs without a hang**, and the
+**Adrenalin 26.2.2** the same test ran **90 minutes across two runs (30 + 60) without a hang**, and the
 crash history agrees (26.2.x: 0 video-engine hangs out of 15; 26.5+: 43 out of 51). Suspected
 component: the AMF runtime shipped with the newer packages (one run so far, A/B pending).
 Hardware is not fully excluded; see [Open questions](#open-questions). **Workaround:** use
@@ -14,6 +14,9 @@ Hardware is not fully excluded; see [Open questions](#open-questions). **Workaro
 - Both screens go black, usually while streaming on Discord, watching video in a browser or
   recording with OBS. Games alone run for 12+ hours without a problem.
 - Windows keeps running underneath; the PC needs a reset.
+- The card's fans get noticeably louder while the screen is black (not full speed). The logger
+  shows them at ~690 rpm right up to the hang; after that the driver can no longer read them,
+  consistent with the card falling back to its own fan control.
 - After the reboot the card is **disabled** (Device Manager, code 22). Enabling it and
   rebooting again brings it back.
 - Started about two months after the PC was built, then recurred 5–12 times a month.
@@ -64,7 +67,7 @@ only the video engine (AMF encode + D3D11 decode) triggers the identical fatal s
 | 2 | 26.8.1 | 26.8.1 | **hang at 16 min** |
 | 3 | 26.2.2 (clean install) | 26.8.1 (left in System32 by the downgrade) | **hang at 6.4 min** |
 | 4 | 26.2.2 | 26.2.2 | **passed 30 min** |
-| 5 | 26.2.2 | 26.2.2 | no hang after 29 min (60-min run in progress) |
+| 5 | 26.2.2 | 26.2.2 | **passed 60 min** (69 sessions, video engine 96% average, max 58 °C) |
 | 6 | 26.2.2 | 26.8.1 | planned (A/B) |
 | 7 | Linux, amdgpu + Mesa VA-API | n/a | planned |
 
@@ -85,7 +88,8 @@ so the onset in May was not a Windows feature update.
 
 - Runs 3 and 4 differ only in which `amfrt64.dll` was loaded; the kernel driver, firmware
   and every other driver library were 26.2.2 in both. That points at AMD's AMF runtime from
-  the newer packages, but it is one run each. Runs 5 and 6 test it.
+  the newer packages. Run 5 confirmed that clean 26.2.2 holds for a full hour; run 6 (26.2.2
+  with only the newer `amfrt64.dll` swapped in) is the remaining test of the AMF runtime.
 - Run 7 (Linux) uses a separate driver, encoder library and firmware build. A hang there
   would point at the card itself.
 - AMD has acknowledged VCN engine hangs on RDNA3 with HAGS as a factor (see

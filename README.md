@@ -1,6 +1,6 @@
 # RX 9070 XT: video engine (VCN) hang → black screen → card disabled after reboot
 
-**Summary (October 2026):** on Adrenalin **26.5 and later**, the RX 9070 XT's **video codec
+**Summary (October 2026, reported to AMD via the Bug Report Tool):** on Adrenalin **26.5 and later**, the RX 9070 XT's **video codec
 engine** hangs under encode/decode load, AMD's recovery fails, the screen goes black and Crash
 Defender disables the card. A stress test reproduces it in **6–16 minutes**. On
 **Adrenalin 26.2.2** the same test ran **48+ minutes across two runs without a hang**, and the
@@ -88,7 +88,7 @@ they cannot be classified. Windows stayed on the same build throughout.
 - Run 7 (Linux) uses a separate driver, encoder library and firmware build. A hang there
   would point at the card itself.
 - Is any healthy RX 9070 XT affected? Results from other owners running the test below
-  would settle the hardware question. Please open an issue with your log.
+  would settle the hardware question. Please [open a "Stress test result" issue](../../issues/new/choose) with your log.
 
 ## Reproduce it
 

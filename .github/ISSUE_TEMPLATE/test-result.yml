@@ -1,0 +1,54 @@
+name: Stress test result
+description: Share the result of vcn-stress.ps1 or run.sh on your card
+title: "[result] <card> <driver>: PASS/HANG after N min"
+labels: ["test-result"]
+body:
+  - type: input
+    id: card
+    attributes:
+      label: Graphics card
+      description: Model and brand, e.g. Sapphire Pulse RX 9070 XT
+    validations:
+      required: true
+  - type: input
+    id: driver
+    attributes:
+      label: Driver
+      description: Adrenalin version (Windows) or kernel + Mesa version (Linux)
+    validations:
+      required: true
+  - type: dropdown
+    id: result
+    attributes:
+      label: Result
+      options:
+        - PASSED (no hang)
+        - VIDEO ENGINE HANG
+        - Other (explain below)
+    validations:
+      required: true
+  - type: input
+    id: minutes
+    attributes:
+      label: Minutes until the hang, or minutes run without one
+    validations:
+      required: true
+  - type: dropdown
+    id: blackscreens
+    attributes:
+      label: Do you also get black screens in normal use (Discord, browser video, OBS)?
+      options:
+        - "Yes"
+        - "No"
+        - Not sure
+  - type: textarea
+    id: system
+    attributes:
+      label: Rest of the system
+      description: CPU, motherboard + BIOS, PSU, Windows build
+  - type: textarea
+    id: log
+    attributes:
+      label: Test log
+      description: Paste the log from tools/windows/logs or tools/linux/logs. Remove your user name from paths if you like.
+      render: text

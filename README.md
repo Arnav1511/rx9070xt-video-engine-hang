@@ -10,9 +10,10 @@ Hardware is not fully excluded; see [Open questions](#open-questions). **Workaro
 26.2.2, or keep apps off the hardware encoder ([below](#workaround-until-the-cause-is-fixed)).
 
 **Status (9 October 2026):** Adrenalin 26.9.2 (released 29 September, the newest driver) was
-tested today and hung after 10.7 minutes, so no release so far fixes it. The test PC goes
-back to 26.2.2 for everyday use, with hardware acceleration enabled in Discord, Chrome and
-OBS; whether that stays free of hangs will be recorded here.
+tested today and hung after 10.7 minutes, so no release so far fixes it. The test PC is back
+on 26.2.2 for everyday use (leftover files replaced, all driver files verified against the
+package), with hardware acceleration enabled in Discord, Chrome and OBS; whether that stays
+free of hangs will be recorded here.
 
 ## Symptom
 
@@ -138,20 +139,31 @@ timeouts or resets.
 
 **Option 1:** install Adrenalin **26.2.2** with *Factory Reset* (from AMD's previous-drivers
 page; use the full offline installer, the small web installer only offers the current
-version). Then check the system folders for files the newer package left behind. Here the
-downgrade left eight files from 26.8.1 that matched no installed driver:
+version). Then replace the files the newer package leaves behind:
 
-- `C:\Windows\System32`: `amfrt64.dll`, `atiadlxx.dll`, `amdadlx64.dll`, `amd_fidelityfx_dx12.dll`
+```powershell
+# preview, changes nothing
+powershell -ExecutionPolicy Bypass -File tools\windows\fix-downgrade-leftovers.ps1 -Check
+# fix, in an administrator PowerShell, then reboot
+powershell -ExecutionPolicy Bypass -File tools\windows\fix-downgrade-leftovers.ps1
+```
+
+AMD's INF copies these files "overwrite older only" (copy flag `0x4040`), so a downgrade keeps
+the newer copies even with Factory Reset. Both downgrades here did it, eight files after
+26.8.1 → 26.2.2 and seven after 26.9.2 → 26.2.2:
+
+- `C:\Windows\System32`: `amfrt64.dll`, `atiadlxx.dll`, `amdadlx64.dll` (and `amd_fidelityfx_dx12.dll` the first time)
 - `C:\Windows\SysWOW64`: `amfrt32.dll`, `atiadlxx.dll`, `atiadlxy.dll`, `amdadlx32.dll`
 
 `amfrt64.dll` / `amfrt32.dll` are the AMF runtime that every hardware-encoding app (Discord,
 OBS, browsers) loads, which is how run 3 still hung on 26.2.2. The `atiadl*` files are AMD's
-sensor library; with the mismatched copies, monitoring tools lost the card's temperature,
-clock, power and fan readings. Replace each with the copy from the installed driver's folder
-under `C:\Windows\System32\DriverStore\FileRepository` (the files belong to TrustedInstaller,
-so it takes an admin shell and `takeown`; in SysWOW64, `atiadlxx.dll` is a copy of the
-package's `atiadlxy.dll`), then reboot. Until that is done, combine this with option 2.
-Windows Update and AMD Software will both offer newer drivers again; decline or block them.
+sensor library; with the mismatched copies, MSI Afterburner and the logger here lost the
+card's temperature, clock, power and fan readings until the files were replaced. The script
+compares each file with the installed driver's package under
+`C:\Windows\System32\DriverStore\FileRepository`, keeps a backup of what it replaces and
+restores the TrustedInstaller owner. Until that is done, combine this with option 2.
+Windows Update and AMD Software will both offer newer drivers again; decline them, or run the
+script with `-BlockDriverUpdates` to stop Windows Update delivering drivers.
 
 **Option 2:** stay on the current driver and keep apps off the card's video engine, so the
 CPU encodes and decodes instead:
@@ -170,6 +182,7 @@ Games, frame generation and FSR are unaffected; they use the 3D engine.
 |---|---|
 | [tools/windows/vcn-stress.ps1](tools/windows/vcn-stress.ps1) | the video-engine stress test (Windows, AMF) |
 | [tools/linux/run.sh](tools/linux/run.sh) | the same test on Linux (amdgpu, VA-API) |
+| [tools/windows/fix-downgrade-leftovers.ps1](tools/windows/fix-downgrade-leftovers.ps1) | finds and replaces the newer AMD files a driver downgrade leaves in System32 and SysWOW64 (preview with `-Check`) |
 | [tools/windows/gpu-watch](tools/windows/gpu-watch) | background logger: temperatures, clocks, per-engine load and the process on it, VRAM, memory commit and network probes every 2 s, written through to disk so the last lines survive a hard reset |
 | [tools/analysis/Get-HangSnapshots.ps1](tools/analysis/Get-HangSnapshots.ps1) | reads Windows' GPU hang dumps: stop code, AMD watchdog, engine and program, driver build |
 

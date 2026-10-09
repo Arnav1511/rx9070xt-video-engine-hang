@@ -66,7 +66,10 @@ only the video engine (AMF encode + D3D11 decode) triggers the identical fatal s
 Logs: [results/stress-runs](results/stress-runs). Second-by-second logger data around each
 hang: [results/logger-excerpts](results/logger-excerpts).
 
-**5. The onset matches a driver update.** The first video-engine black screen happened the
+**5. The onset matches a driver update.** Reading the `amdkmdag.sys` build out of every dump
+([results/hang-snapshots.csv](results/hang-snapshots.csv)): on 26.2.x, 15 hangs, all 3D and
+none on the video engine; on every build from 26.5.2 to 26.8.1, fatal video-engine hangs
+(43 of 51 `0x141` dumps, one of them from the first stress test). The first video-engine black screen happened the
 night Adrenalin 26.5.2 was installed (17 May 2026). On 26.2.x and 26.3.1 (March to mid-May)
 the recorded engine hangs were all recoverable 3D hangs in games. Windows did log two
 black-screen detections then (`0x1A8`, 2 and 23 April), which carry no engine record, so

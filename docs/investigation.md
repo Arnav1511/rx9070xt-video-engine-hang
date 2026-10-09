@@ -44,14 +44,22 @@ Tool: [tools/analysis/Get-HangSnapshots.ps1](../tools/analysis/Get-HangSnapshots
 `kd -z <dump> -c "lmvm amdkmdag"` lists the module. AMD stamps a fixed fake timestamp
 (1975), so builds are told apart by `CheckSum` and `ImageSize`:
 
-| Build (checksum / size) | Seen | Matches |
-|---|---|---|
-| `06B43DF3` / `06BC4000` | 23 Mar – 11 Apr | 26.2.x family (installer for 26.2.2 downloaded 8 Mar) |
-| `05026E89` / `050B5000` | 17 May – 3 Jun | 26.5.2 (installer downloaded 17 May) |
-| `0504390C` / `050D8000` | late June | later 26.5/26.6 build |
-| `0509722E` / `05127000` | July – August | 26.7.1 (downloaded 29 Jul) |
-| `0508CC9B` / `05126000` | 4 Sep – 9 Oct | 26.8.1 = `32.0.31041.1004` (verified on disk) |
-| `06B49EE8` / `06BCF000` | 9 Oct test | 26.2.2 = `32.0.23027.2005` (verified on disk) |
+| Build (checksum / size) | Seen | Matches | `0x141` hangs | of which fatal video-engine |
+|---|---|---|---|---|
+| `06B43DF3` / `06BC4000` | 23 Mar – 11 Apr | 26.2.x (26.2.2 installer downloaded 8 Mar) | 15 | **0** (all 15 are 3D) |
+| `05026E89` / `050B5000` | 17 May – 3 Jun | 26.5.2 (installer downloaded 17 May) | 8 | 8 |
+| `05048837` / `050D7000` | 12 – 22 Jun | unnamed (no installer kept; likely 26.6.x via AMD Software update) | 8 | 8 |
+| `0504390C` / `050D8000` | 29 Jun | unnamed | 1 | 1 |
+| `0504B0AC` / `050D9000` | 8 – 29 Jul | unnamed | 6 | 5 |
+| `0509722E` / `05127000` | 30 Jul – Aug | 26.7.1 (downloaded 29 Jul) | 11 | 9 |
+| `0508CC9B` / `05126000` | 30 Aug – 9 Oct | 26.8.1 = `32.0.31041.1004` (verified on disk) | 17 | 12 |
+| `06B49EE8` / `06BCF000` | 9 Oct tests | 26.2.2 = `32.0.23027.2005` (verified on disk) | | |
+
+The follow-up dumps written at boot after a failed recovery (`0x193`, `0x1B0`, `0x1A8`) show
+other `amdkmdag` builds around `0x061F7000`–`0x0627F000` in size. Those are the CPU's
+integrated Radeon graphics driver (`32.0.21045.5002` on disk has `06207FBA` / `0627F000`):
+at those boots the RX 9070 XT's driver had not loaded. Full table:
+[results/hang-snapshots.csv](../results/hang-snapshots.csv).
 
 The 26.2.2 installed for testing is the same family as the March build but not
 byte-identical, so it may be a different 26.2.x point release.

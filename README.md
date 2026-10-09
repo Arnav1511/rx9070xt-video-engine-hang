@@ -88,6 +88,9 @@ so the onset in May was not a Windows feature update.
   the newer packages, but it is one run each. Runs 5 and 6 test it.
 - Run 7 (Linux) uses a separate driver, encoder library and firmware build. A hang there
   would point at the card itself.
+- AMD has acknowledged VCN engine hangs on RDNA3 with HAGS as a factor (see
+  [Similar reports](#similar-reports)). A run of 26.8.1 with HAGS off would show whether the
+  same workaround applies to RDNA4.
 - Is any healthy RX 9070 XT affected? Results from other owners running the test below
   would settle the hardware question. Please [open a "Stress test result" issue](../../issues/new/choose) with your log.
 
@@ -148,6 +151,14 @@ Games, frame generation and FSR are unaffected; they use the 3D engine.
 - [r/radeon thread](https://www.reddit.com/r/radeon/comments/1x17ic1/rx_9070_xt_black_screens_on_adrenalin_265_video/)
 
 ## Similar reports
+
+- [AMD_Vik (AMD) on r/Amd](https://www.reddit.com/r/Amd/comments/1wtb115/comment/pcu0dvd/), as
+  quoted in the r/radeon thread: *"This one (NV3X VCN engine hangs) is still in progress, and
+  should be resolved in the next release. Assuming you're on Windows 11, you can disable HAGS
+  as a temporary workaround."* That is about RDNA3 (NV3X). Every hang here carries `HWS:1`
+  (hardware-accelerated GPU scheduling on), which fits, but 26.2.2 passes the stress test with
+  HAGS on, so on RDNA4 HAGS alone is not the cause. Whether turning HAGS off avoids the hang on
+  26.5+ with RDNA4 is untested here.
 
 - [LizardByte/Sunshine#5385](https://github.com/LizardByte/Sunshine/issues/5385): RX 9070 XT
   hangs during AMF encoder session start on Adrenalin 26.6.4, Crash Defender puts the GPU in

@@ -54,6 +54,7 @@ Tool: [tools/analysis/Get-HangSnapshots.ps1](../tools/analysis/Get-HangSnapshots
 | `0509722E` / `05127000` | 30 Jul – Aug | 26.7.1 (downloaded 29 Jul) | 11 | 9 |
 | `0508CC9B` / `05126000` | 30 Aug – 9 Oct | 26.8.1 = `32.0.31041.1004` (verified on disk) | 17 | 12 |
 | `06B49EE8` / `06BCF000` | 9 Oct tests | 26.2.2 = `32.0.23027.2005` (verified on disk) | | |
+| `0560B9FC` / `05682000` | 9 Oct test | 26.9.2 = `32.0.32015.2008` (verified on disk) | 1 | 1 (stress run 6) |
 
 The follow-up dumps written at boot after a failed recovery (`0x193`, `0x1B0`, `0x1A8`) show
 other `amdkmdag` builds around `0x061F7000`–`0x0627F000` in size. Those are the CPU's

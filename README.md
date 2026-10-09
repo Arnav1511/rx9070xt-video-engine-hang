@@ -79,7 +79,8 @@ only the video engine (AMF encode + D3D11 decode) triggers the identical fatal s
 
 Run 6 used the newest driver available (released 29 September 2026, a new driver branch,
 `32.0.32015.2008`). The video engine was at 92–94% under ffmpeg and the card at 52 °C when
-it stopped. Windows filed `0x141 … Tdr:6 … HWS:1-GRE=8094` (earlier builds: `GRE=3202c`) with
+it stopped. The TDR record in the dump names the video codec engine (7) and `ffmpeg.exe`,
+as in run 1. Windows filed `0x141 … Tdr:6 … HWS:1-GRE=8094` (earlier builds: `GRE=3202c`) with
 Crash Defender's `0xA1000001` / `0xA2000002` in the same second and `0x193` four seconds
 later; after the reset the card was disabled (code 22), as before.
 

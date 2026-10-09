@@ -93,7 +93,23 @@ logger, during the failed recovery, with Windows still running, not during the n
 A plain failed TDR leaves code 43, not a persistent disable, so this is presumably AMD Crash
 Defender switching the card off so the next boot comes up on the basic display driver.
 
-## 6. Stress test design
+## 6. Ruling out a stale or mixed install
+
+- The black screens started on a working system: 26.5.2 was installed over 26.3.1, which had
+  run without engine hangs, and they continued across six driver builds.
+- On 4 September the card was reinstalled from scratch (Windows records the device instance
+  as first installed `2026-09-04 03:46`). 12 more fatal hangs followed on 26.8.1.
+- When 26.8.1 failed the stress test, the driver store held only the 26.8.1 package for the
+  RX 9070 XT and the separate package for the CPU's integrated graphics
+  (`32.0.21045.5002`); the AMF runtime in System32 was 26.8.1's.
+- The two AMD packages do not share the AMF runtime: System32's `amfrt64.dll`
+  (160,784 bytes, 18 Aug) matches neither the integrated-graphics package's copy
+  (147,472 bytes) nor 26.2.2's (147,464 bytes). After the downgrade to 26.2.2 it remained as
+  an orphan of 26.8.1, which is how stress run 3 came to load it.
+- Not ruled out: this Windows installation was carried over from an older PC (installed
+  2024). The stress test reproduces the hang with no Discord, browser or overlay involved.
+
+## 7. Stress test design
 
 [tools/windows/vcn-stress.ps1](../tools/windows/vcn-stress.ps1) runs three ffmpeg jobs on the
 card (selected by DXGI adapter index; frames stay on the GPU as D3D11 textures):
@@ -107,7 +123,7 @@ Together they hold the video engine at about 90–97%. The test stops at the fir
 `LiveKernelEvent` whose dump time falls inside the run. The card stays near idle power and
 51–54 °C throughout, which rules out heat and power delivery as the trigger.
 
-## 7. Timeline
+## 8. Timeline
 
 | Date (2026) | Event |
 |---|---|

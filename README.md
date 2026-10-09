@@ -1,8 +1,13 @@
 # RX 9070 XT: video engine (VCN) hang → black screen → card disabled after reboot
 
-**Status: investigation in progress (October 2026).** The trigger is pinned to the card's
-video codec engine and is reproducible in minutes. Whether the root cause is AMD's
-driver/runtime or this card's hardware is not settled yet; see [Open questions](#open-questions).
+**Summary (October 2026):** on Adrenalin **26.5 and later**, the RX 9070 XT's **video codec
+engine** hangs under encode/decode load, AMD's recovery fails, the screen goes black and Crash
+Defender disables the card. A stress test reproduces it in **6–16 minutes**. On
+**Adrenalin 26.2.2** the same test ran **48+ minutes across two runs without a hang**, and the
+crash history agrees (26.2.x: 0 video-engine hangs out of 15; 26.5+: 43 out of 51). Suspected
+component: the AMF runtime shipped with the newer packages (one run so far, A/B pending).
+Hardware is not fully excluded; see [Open questions](#open-questions). **Workaround:** use
+26.2.2, or keep apps off the hardware encoder ([below](#workaround-until-the-cause-is-fixed)).
 
 ## Symptom
 
@@ -59,7 +64,7 @@ only the video engine (AMF encode + D3D11 decode) triggers the identical fatal s
 | 2 | 26.8.1 | 26.8.1 | **hang at 16 min** |
 | 3 | 26.2.2 (clean install) | 26.8.1 (left in System32 by the downgrade) | **hang at 6.4 min** |
 | 4 | 26.2.2 | 26.2.2 | **passed 30 min** |
-| 5 | 26.2.2 | 26.2.2 | running (60 min) |
+| 5 | 26.2.2 | 26.2.2 | no hang so far (60-min run in progress) |
 | 6 | 26.2.2 | 26.8.1 | planned (A/B) |
 | 7 | Linux, amdgpu + Mesa VA-API | n/a | planned |
 
@@ -110,7 +115,15 @@ timeouts or resets.
 
 ## Workaround (until the cause is fixed)
 
-Keep apps off the card's video engine so the CPU encodes and decodes instead:
+**Option 1:** install Adrenalin **26.2.2** with *Factory Reset* (from AMD's previous-drivers
+page; use the full offline installer, the small web installer only offers the current
+version). Then check that `C:\Windows\System32\amfrt64.dll` is not newer than the driver;
+a downgrade can leave the newer one behind, and every app that uses the hardware encoder
+(Discord, OBS, browsers) loads that copy. Until it is replaced with the copy from the 26.2.2
+package under `C:\Windows\System32\DriverStore\FileRepository`, combine this with option 2.
+
+**Option 2:** stay on the current driver and keep apps off the card's video engine, so the
+CPU encodes and decodes instead:
 
 - **Discord:** Settings → Voice & Video → Video Codec → *Hardware Acceleration* off.
   The general Advanced → Hardware Acceleration switch does **not** stop it.

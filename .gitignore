@@ -1,0 +1,10 @@
+# kernel dumps contain fragments of system memory: never commit them
+*.dmp
+dumps/
+# generated test clips, logs from local runs, build output
+*.mp4
+*.iso
+tools/windows/logs/
+tools/linux/logs/
+tools/windows/gpu-watch/logs/
+*.exe

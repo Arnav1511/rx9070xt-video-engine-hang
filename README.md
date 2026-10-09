@@ -3,7 +3,7 @@
 **Summary (October 2026, reported to AMD via the Bug Report Tool):** on Adrenalin **26.5 and later**, the RX 9070 XT's **video codec
 engine** hangs under encode/decode load, AMD's recovery fails, the screen goes black and Crash
 Defender disables the card. A stress test reproduces it in **6–16 minutes**. On
-**Adrenalin 26.2.2** the same test ran **48+ minutes across two runs without a hang**, and the
+**Adrenalin 26.2.2** the same test ran **59+ minutes across two runs without a hang**, and the
 crash history agrees (26.2.x: 0 video-engine hangs out of 15; 26.5+: 43 out of 51). Suspected
 component: the AMF runtime shipped with the newer packages (one run so far, A/B pending).
 Hardware is not fully excluded; see [Open questions](#open-questions). **Workaround:** use
@@ -16,7 +16,7 @@ Hardware is not fully excluded; see [Open questions](#open-questions). **Workaro
 - Windows keeps running underneath; the PC needs a reset.
 - After the reboot the card is **disabled** (Device Manager, code 22). Enabling it and
   rebooting again brings it back.
-- Started about two months after the PC was built, then recurred 7–12 times a month.
+- Started about two months after the PC was built, then recurred 5–12 times a month.
 
 ## System
 
@@ -51,7 +51,7 @@ marked disabled (`ConfigFlags=1`) while Windows is still running. On the next bo
 driver either cannot start the card (`0x193`, `DdiAddDevice` failed `0xC0000001`) or finds
 it disabled (code 22). Details: [docs/investigation.md](docs/investigation.md).
 
-**3. Not heat, power or the PCIe link.** At the moment of every captured hang the card was
+**3. Not heat, power or the PCIe link.** At every captured video-engine hang the card was
 at 51–54 °C, near idle power, on a stable PCIe 4.0 x16 link. Windows stays alive throughout
 (the logger's heartbeat keeps writing), so it is not a whole-system freeze.
 
@@ -64,7 +64,7 @@ only the video engine (AMF encode + D3D11 decode) triggers the identical fatal s
 | 2 | 26.8.1 | 26.8.1 | **hang at 16 min** |
 | 3 | 26.2.2 (clean install) | 26.8.1 (left in System32 by the downgrade) | **hang at 6.4 min** |
 | 4 | 26.2.2 | 26.2.2 | **passed 30 min** |
-| 5 | 26.2.2 | 26.2.2 | no hang so far (60-min run in progress) |
+| 5 | 26.2.2 | 26.2.2 | no hang after 29 min (60-min run in progress) |
 | 6 | 26.2.2 | 26.8.1 | planned (A/B) |
 | 7 | Linux, amdgpu + Mesa VA-API | n/a | planned |
 
@@ -78,7 +78,8 @@ none on the video engine; on every build from 26.5.2 to 26.8.1, fatal video-engi
 night Adrenalin 26.5.2 was installed (17 May 2026). On 26.2.x and 26.3.1 (March to mid-May)
 the recorded engine hangs were all recoverable 3D hangs in games. Windows did log two
 black-screen detections then (`0x1A8`, 2 and 23 April), which carry no engine record, so
-they cannot be classified. Windows stayed on the same build throughout.
+they cannot be classified. Windows stayed on the same build (26200) from March to September,
+so the onset in May was not a Windows feature update.
 
 ## Open questions
 

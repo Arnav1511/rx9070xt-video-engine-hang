@@ -9,11 +9,20 @@ component: the AMF runtime shipped with the newer packages (one run so far, A/B 
 Hardware is not fully excluded; see [Open questions](#open-questions). **Workaround:** use
 26.2.2, or keep apps off the hardware encoder ([below](#workaround-until-the-cause-is-fixed)).
 
+**Correction (10 October 2026): 26.2.2 is not immune.** On a verified-clean 26.2.2 install
+(every driver file matching the package, AMF runtime 26.2.2's own) the video engine hung at
+22:25 while Discord was streaming, after 206 minutes of Discord use on that install (105
+minutes into that evening's stream). Same sequence: Crash Defender `0xA1000001` /
+`0xA2000002`, `0x141`, card disabled after the reset. So 26.2.2 fails far less often than
+26.5.2–26.9.2 (which hang in 6–16 minutes under the stress test) but it does fail, the
+"26.2.2 is stable" reading below is too strong, and a hardware fault in the card's video
+engine is a live possibility again. The only workaround that holds is keeping apps off the
+hardware encoder (option 2 below). The Linux run is now the next test.
+
 **Status (9 October 2026):** Adrenalin 26.9.2 (released 29 September, the newest driver) was
-tested today and hung after 10.7 minutes, so no release so far fixes it. The test PC is back
-on 26.2.2 for everyday use (leftover files replaced, all driver files verified against the
-package), with hardware acceleration enabled in Discord, Chrome and OBS; whether that stays
-free of hangs will be recorded here.
+tested and hung after 10.7 minutes, so no release so far fixes it. The test PC went back to
+26.2.2 for everyday use (leftover files replaced, all driver files verified against the
+package), with hardware acceleration enabled in Discord and OBS.
 
 ## Symptom
 
@@ -75,6 +84,7 @@ only the video engine (AMF encode + D3D11 decode) triggers the identical fatal s
 | 4 | 26.2.2 | 26.2.2 | **passed 30 min** |
 | 5 | 26.2.2 | 26.2.2 | **passed 60 min** (69 sessions, video engine 96% average, max 58 °C) |
 | 6 | 26.9.2 (upgrade over 26.2.2; every driver file in System32 and SysWOW64 checked against the package) | 26.9.2 | **hang at 10.7 min** |
+| – | 26.2.2, everyday use (Discord stream, not the stress test) | 26.2.2 | **hang after 206 min of Discord use** (10 Oct, 22:25) |
 | 7 | 26.2.2 | 26.8.1 | planned (A/B) |
 | 8 | Linux, amdgpu + Mesa VA-API | n/a | planned |
 

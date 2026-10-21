@@ -1,28 +1,31 @@
 # RX 9070 XT: video engine (VCN) hang → black screen → card disabled after reboot
 
-**Summary (October 2026, reported to AMD via the Bug Report Tool):** on Adrenalin **26.5.2 through 26.9.2** (every driver newer than 26.3.1 this card has run, including the newest release as of 9 October 2026), the RX 9070 XT's **video codec
-engine** hangs under encode/decode load, AMD's recovery fails, the screen goes black and Crash
-Defender disables the card. A stress test reproduces it in **6–16 minutes**. On
-**Adrenalin 26.2.2** the same test ran **90 minutes across two runs (30 + 60) without a hang**, and the
-crash history agrees (26.2.x: 0 video-engine hangs out of 15; 26.5.2–26.8.1: 43 out of 51). Suspected
-component: the AMF runtime shipped with the newer packages (one run so far, A/B pending).
-Hardware is not fully excluded; see [Open questions](#open-questions). **Workaround:** use
-26.2.2, or keep apps off the hardware encoder ([below](#workaround-until-the-cause-is-fixed)).
+**Summary (as of 21 October 2026, reported to AMD via the Bug Report Tool):** on Windows, the
+RX 9070 XT's **video codec engine** hangs while an app encodes or decodes video (Discord
+calls and streams, browser video calls, OBS), AMD's recovery fails, the screen goes black and
+Crash Defender disables the card. A stress test reproduces it in **6–16 minutes** on
+Adrenalin 26.5.2 through 26.9.2 (the newest release). **26.2.2 fails far less often but is not
+immune** (90 clean stress minutes, then hangs in everyday Discord use after 206 and 44
+minutes). **On Linux the same card ran the same kind of load for 8 hours without a single
+hang** (run 8), so the card's hardware is most likely fine and the fault is on the Windows
+side: AMD's Windows driver and the video firmware it loads, possibly together with
+hardware-accelerated GPU scheduling (every hang carries `HWS:1`). **Workaround:** keep video
+calls and streams off the RX 9070 XT ([below](#workaround-until-the-cause-is-fixed)); app
+settings alone did not manage it here.
 
-**Correction (10 October 2026): 26.2.2 is not immune.** On a verified-clean 26.2.2 install
-(every driver file matching the package, AMF runtime 26.2.2's own) the video engine hung at
-22:25 while Discord was streaming, after 206 minutes of Discord use on that install (105
-minutes into that evening's stream). Same sequence: Crash Defender `0xA1000001` /
-`0xA2000002`, `0x141`, card disabled after the reset. So 26.2.2 fails far less often than
-26.5.2–26.9.2 (which hang in 6–16 minutes under the stress test) but it does fail, the
-"26.2.2 is stable" reading below is too strong, and a hardware fault in the card's video
-engine is a live possibility again. The only workaround that holds is keeping apps off the
-hardware encoder (option 2 below). The Linux run is now the next test.
+### Timeline of the conclusions
 
-**Status (9 October 2026):** Adrenalin 26.9.2 (released 29 September, the newest driver) was
-tested and hung after 10.7 minutes, so no release so far fixes it. The test PC went back to
-26.2.2 for everyday use (leftover files replaced, all driver files verified against the
-package), with hardware acceleration enabled in Discord and OBS.
+- **9 Oct:** stress test: 26.8.1 and 26.9.2 hang in 6–16 minutes; 26.2.2 passes 90 minutes.
+  Read at the time as "the newer drivers broke it".
+- **10 Oct, correction:** a verified-clean 26.2.2 install hung twice in everyday Discord use
+  (22:25 after 206 minutes of Discord on the engine, 23:14 after 44 more). Hardware became
+  a live possibility.
+- **10–20 Oct:** Discord kept using the video engine (7–10%) during calls with every relevant
+  setting off: `hardwareH264`, `hardwareEncoding`, AV1 and H.265 off, Advanced hardware
+  acceleration off, and Windows told to run Discord on the integrated GPU. Further black
+  screens on 26.9.2: 20 Oct 00:52 (Discord call) and 21:32 (Chrome video call with
+  hardware acceleration on; reset by hand before Windows logged it).
+- **20–21 Oct:** run 8, Linux live USB, 8 hours: **no hang**. The card is most likely fine.
 
 ## Symptom
 
@@ -44,7 +47,7 @@ package), with hardware acceleration enabled in Discord and OBS.
 | CPU / board | Ryzen 7 9800X3D, ASUS TUF GAMING B650-PLUS (BIOS 3881) |
 | RAM / PSU | 2×16 GB DDR5-6000, Corsair 850 W |
 | OS | Windows 11 Pro 26200 (Mar–Sep 2026), 26300 (Oct 2026) |
-| Drivers | Adrenalin 26.2.2, 26.3.1, 26.5.2, 26.7.1, 26.8.1 over the period; 26.9.2 for one stress run |
+| Drivers | Adrenalin 26.2.2, 26.3.1, 26.5.2, 26.7.1, 26.8.1 over the period; 26.2.2 again 9–12 Oct; 26.9.2 since 12 Oct |
 
 ## Findings
 
@@ -84,9 +87,21 @@ only the video engine (AMF encode + D3D11 decode) triggers the identical fatal s
 | 4 | 26.2.2 | 26.2.2 | **passed 30 min** |
 | 5 | 26.2.2 | 26.2.2 | **passed 60 min** (69 sessions, video engine 96% average, max 58 °C) |
 | 6 | 26.9.2 (upgrade over 26.2.2; every driver file in System32 and SysWOW64 checked against the package) | 26.9.2 | **hang at 10.7 min** |
-| – | 26.2.2, everyday use (Discord stream, not the stress test) | 26.2.2 | **hang after 206 min of Discord use** (10 Oct, 22:25) |
-| 7 | 26.2.2 | 26.8.1 | planned (A/B) |
-| 8 | Linux, amdgpu + Mesa VA-API | n/a | planned |
+| – | 26.2.2, everyday use (Discord stream, not the stress test) | 26.2.2 | **hang after 206 min of Discord use** (10 Oct, 22:25), then again after 44 min (23:14) |
+| – | 26.9.2, everyday use | 26.9.2 | **hang** in a Discord call (20 Oct 00:52) and a Chrome video call (20 Oct 21:32) |
+| 7 | 26.2.2 | 26.8.1 | planned (A/B); less relevant now that 26.2.2 also hangs |
+| 8 | **Linux** live USB (Ubuntu 26.04.1, kernel 7.0.0-30, Mesa 26.0.8 VA-API, ffmpeg 8.0.1) | n/a | **passed 480 min, no amdgpu timeout or reset** |
+
+Run 8 drove the same three jobs through the open-source `amdgpu` driver and Mesa's VA-API
+encoder: 765 real-time sessions (H.264 255, HEVC 288, AV1 222), continuous 1440p HEVC
+decode, and a flat-out H.264 encoder. Card 49–58 °C, junction ≤ 59 °C, memory ≤ 62 °C. One
+flaw: on Linux the flat-out encoder job exited every ~10 s when its input looped (ffmpeg
+"Impossible to convert between the formats ... src: vaapi", sample in
+[results/stress-runs](results/stress-runs)), so it restarted 2,674 times. Between restarts
+it encoded at 94–155 fps (average 118), and the restarts added about 2,700 encoder session
+starts and stops on top of the 765, so the engine was under load all night; the exact
+utilisation was not recorded. `tools/linux/run.sh` now passes `-reinit_filter 0`, which
+should stop those restarts (not yet re-run).
 
 Run 6 used the newest driver available (released 29 September 2026, a new driver branch,
 `32.0.32015.2008`). The video engine was at 92–94% under ffmpeg and the card at 52 °C when
@@ -110,15 +125,17 @@ so the onset in May was not a Windows feature update.
 
 ## Open questions
 
-- Runs 3 and 4 differ only in which `amfrt64.dll` was loaded; the kernel driver, firmware
-  and every other driver library were 26.2.2 in both. That points at AMD's AMF runtime from
-  the newer packages. Run 5 confirmed that clean 26.2.2 holds for a full hour; run 7 (26.2.2
-  with only the newer `amfrt64.dll` swapped in) is the remaining test of the AMF runtime.
-- Run 8 (Linux) uses a separate driver, encoder library and firmware build. A hang there
-  would point at the card itself.
-- AMD has acknowledged VCN engine hangs on RDNA3 with HAGS as a factor (see
-  [Similar reports](#similar-reports)). A run of 26.8.1 with HAGS off would show whether the
-  same workaround applies to RDNA4.
+- **Which Windows-side component?** Linux (run 8) clears the card's hardware as far as one
+  8-hour run can. Remaining suspects: AMD's Windows kernel driver and the VCN firmware it
+  loads (the strongest), the AMF runtime (runs 3 and 4 differ only in `amfrt64.dll`), and
+  hardware-accelerated GPU scheduling.
+- **HAGS.** AMD has acknowledged VCN engine hangs on RDNA3 with HAGS as a factor (see
+  [Similar reports](#similar-reports)), and every hang here carries `HWS:1`. A week of normal
+  use, or a stress run on 26.9.2, with HAGS off would show whether the same workaround
+  applies to RDNA4. Untested here so far (the owner uses HAGS for frame generation).
+- **Two AMD drivers side by side.** The Ryzen 7 9800X3D's integrated Radeon graphics is
+  enabled and runs its own AMD driver (`32.0.21045.5002`). Disabling it in the BIOS and
+  re-running the stress test would rule that in or out.
 - Is any healthy RX 9070 XT affected? Results from other owners running the test below
   would settle the hardware question. Please [open a "Stress test result" issue](../../issues/new/choose) with your log.
 
@@ -175,12 +192,19 @@ restores the TrustedInstaller owner. Until that is done, combine this with optio
 Windows Update and AMD Software will both offer newer drivers again; decline them, or run the
 script with `-BlockDriverUpdates` to stop Windows Update delivering drivers.
 
-**Option 2:** stay on the current driver and keep apps off the card's video engine, so the
-CPU encodes and decodes instead:
+**Option 2:** keep apps off the card's video engine, so something else encodes and decodes:
 
-- **Discord:** Settings → Voice & Video → Video Codec → *Hardware Acceleration* off.
-  The general Advanced → Hardware Acceleration switch does **not** stop it.
-- **Chrome:** Settings → System → *Use graphics acceleration when available* off.
+- **Discord:** turning off Voice & Video → Video Codec → *Hardware Acceleration* is not
+  enough. Here the Discord app still used the RX 9070 XT's video engine at 7–10% during calls
+  with every setting off (hardware encoding, AV1, H.265, Advanced hardware acceleration) and
+  with Windows told to run it on the integrated GPU, and two black screens happened that way.
+  Use Discord in a browser with graphics acceleration off, or the next point.
+- **Video calls and streams on the integrated GPU:** plug a monitor into the motherboard's
+  video output and keep the call window on that screen, so the CPU's own video engine does
+  the work. Not yet measured here with the logger.
+- **Chrome:** Settings → System → *Use graphics acceleration when available* off. Ordinary
+  browsing then stays off the video engine; whether a video call does is not yet measured.
+  The 20 Oct 21:32 hang was a Chrome video call with acceleration on.
 - **OBS:** Settings → Output → Encoder: x264.
 - **AMD Record / Instant Replay, Game Bar recording:** avoid.
 

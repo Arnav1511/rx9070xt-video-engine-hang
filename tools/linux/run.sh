@@ -8,6 +8,15 @@
 # Run from the folder it lives in:  bash run.sh        (optional: bash run.sh 30  for 30 minutes)
 set -u
 MINUTES="${1:-60}"
+# Long runs: keep the live session from blanking, locking or suspending while unattended.
+if [ -z "${VCN_INHIBITED:-}" ] && command -v systemd-inhibit >/dev/null; then
+  gsettings set org.gnome.desktop.session idle-delay 0 2>/dev/null
+  gsettings set org.gnome.desktop.screensaver lock-enabled false 2>/dev/null
+  gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing' 2>/dev/null
+  gsettings set org.gnome.settings-daemon.plugins.power idle-dim false 2>/dev/null
+  export VCN_INHIBITED=1
+  exec systemd-inhibit --what=idle:sleep:shutdown:handle-lid-switch --who=vcn-test --why="GPU video engine test" bash "$0" "$@"
+fi
 HERE="$(cd "$(dirname "$0")" && pwd)"
 SRC_DIR="${SRC_DIR:-$HERE/../windows}"   # clips made by the Windows test, if present
 STAMP="$(date +%Y%m%d_%H%M%S)"
@@ -84,8 +93,8 @@ PIDS=()
 cleanup() { for p in "${PIDS[@]}" ${STEADY:-} ${DECODE:-} ${CHURN:-}; do kill "$p" 2>/dev/null; done; sudo kill "$KPID" 2>/dev/null; }
 trap 'cleanup; log "stopped by user"; exit 130' INT TERM
 
-start_steady() { ffmpeg $HW -stream_loop -1 -i "$S1080" -t 360000 -c:v h264_vaapi -rc_mode CBR -b:v 8M -progress /tmp/steady.progress -f null - 2>>"$LOG_DIR/ffmpeg_$STAMP.err" & STEADY=$!; }
-start_decode() { ffmpeg $HW -stream_loop -1 -i "$S1440" -t 360000 -f null - 2>>"$LOG_DIR/ffmpeg_$STAMP.err" & DECODE=$!; }
+start_steady() { ffmpeg $HW -stream_loop -1 -reinit_filter 0 -i "$S1080" -t 360000 -c:v h264_vaapi -rc_mode CBR -b:v 8M -progress /tmp/steady.progress -f null - 2>>"$LOG_DIR/ffmpeg_$STAMP.err" & STEADY=$!; }
+start_decode() { ffmpeg $HW -stream_loop -1 -reinit_filter 0 -i "$S1440" -t 360000 -f null - 2>>"$LOG_DIR/ffmpeg_$STAMP.err" & DECODE=$!; }
 start_steady; log "steady started pid=$STEADY (h264, flat out)"
 start_decode; log "decode started pid=$DECODE (1440p hevc, flat out)"
 
@@ -98,7 +107,7 @@ while [ "$(date +%s)" -lt "$END" ]; do
     [ -n "$CHURN" ] && kill "$CHURN" 2>/dev/null
     c=${CODECS[$((RANDOM % ${#CODECS[@]}))]}; rate=$((3 + RANDOM % 18)); dur=$((15 + RANDOM % 76))
     if [ $((RANDOM % 2)) -eq 0 ]; then src=$S1080; else src=$S1440; fi
-    ffmpeg $HW -re -stream_loop -1 -i "$src" -t "$dur" -c:v "$c" -rc_mode CBR -b:v "${rate}M" -f null - 2>>"$LOG_DIR/ffmpeg_$STAMP.err" &
+    ffmpeg $HW -re -stream_loop -1 -reinit_filter 0 -i "$src" -t "$dur" -c:v "$c" -rc_mode CBR -b:v "${rate}M" -f null - 2>>"$LOG_DIR/ffmpeg_$STAMP.err" &
     CHURN=$!; CHURN_END=$((now + dur + 15)); N=$((N + 1))
     log "churn #$N $c ${rate}M ${dur}s $(basename "$src")"
   fi

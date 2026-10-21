@@ -135,3 +135,10 @@ Together they hold the video engine at about 90–97%. The test stops at the fir
 | May – Oct | 42 video-engine black screens on 26.5.2, 26.7.1, 26.8.1 |
 | 9 Oct | stress test reproduces it on 26.8.1 (12, 16 min); see README for the driver A/B |
 | 9 Oct | 26.9.2 (newest release, `32.0.32015.2008`) installed over 26.2.2 and stress-tested: hang at 10.7 min, bucket `LKD_0x141_Tdr:6_IMAGE_amdkmdag.sys-PF:1-HWS:1-GRE=8094`, card disabled after the reset |
+| 9 Oct | back to 26.2.2 (Factory Reset); 7 newer files left in System32/SysWOW64 replaced with `fix-downgrade-leftovers.ps1`, every driver file verified |
+| 10 Oct | verified-clean 26.2.2 hangs in everyday Discord use: 22:25 (after 206 min of Discord on the video engine) and 23:14 (after 44 more), `GRE=3202c` |
+| 10 Oct | Discord stays on the video engine (7–10%) during calls with hardware encoding, AV1, H.265 and Advanced hardware acceleration off and a Windows GPU preference for the integrated GPU |
+| 12 Oct | 26.9.2 reinstalled for everyday use |
+| 14 Oct | recoverable 3D-engine hang in a game after 6.5 h at 98% load (the separate, milder issue) |
+| 20 Oct | 26.9.2 black screens: 00:52 in a Discord call; 21:32 in a Chrome video call (acceleration on), reset by hand before Windows logged the TDR |
+| 20–21 Oct | Linux live USB (Ubuntu 26.04.1, kernel 7.0.0-30, Mesa 26.0.8), 8 hours of the same load: no amdgpu timeout or reset. The card's hardware is most likely fine; the fault is on the Windows side |
